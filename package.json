@@ -1,0 +1,23 @@
+{
+  "name": "996lucky.top",
+  "version": "1.0.0",
+  "description": "http://996lucky.top",
+  "main": "index.js",
+  "dependencies": {
+    "create-react-app": "^3.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenjun-110/996lucky.top.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chenjun-110/996lucky.top/issues"
+  },
+  "homepage": "https://github.com/chenjun-110/996lucky.top#readme"
+}
