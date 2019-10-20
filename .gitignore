@@ -3,4 +3,5 @@ server/bin/*
 server/pkg/*
 server/src/main/main.exe
 server/src/github.com
+server/src/aaa
 s
