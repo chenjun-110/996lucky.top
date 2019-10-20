@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -20,21 +20,21 @@ class HorizontalLoginForm extends React.Component {
             headers: { 
                 'Accept': 'application/x-www-form-urlencoded'
             },
-            // body: 'a=1'
             body: JSON.stringify({ username: values.username, password: values.password })
         })
         .then((response) => {
-           return response.json()
+          return response.json()
         })
         .then((data) => {
            console.log(data)
+           if (data.Code === '0000') {
+            message.success(data.Describe);
+           } else {
+            message.error(data.Describe);
+           }
         })
-        .catch((error) => {
-           console.log(error)
-        })
-        console.log('Received values of form: ', values);
       }
-    });
+    }); 
   };
 
   render() {
