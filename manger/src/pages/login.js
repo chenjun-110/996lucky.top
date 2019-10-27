@@ -1,36 +1,33 @@
 import React from 'react';
 import { Form, Icon, Input, Button, message } from 'antd';
-
+import { setToken, getToken } from '../store/index.js'
+import api from '../api/index.js'
+import {withRouter} from "react-router-dom";
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
 class HorizontalLoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
+    console.log('this.props', this.props)
   }
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        fetch('http://127.0.0.1:8080', {
-            method: 'POST',
-            headers: { 
-                'Accept': 'application/x-www-form-urlencoded'
-            },
-            body: JSON.stringify({ username: values.username, password: values.password })
-        })
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
+        console.log(api)
+        api.login({username: values.username, password: values.password}).then((data) => {
            console.log(data)
-           if (data.Code === '0000') {
-            message.success(data.Describe);
-           } else {
-            message.error(data.Describe);
+           if (data.success) {
+            message.success(data.message);
+            setToken(data.value)
+            // this.props.history.push('/users')
            }
         })
       }
@@ -44,6 +41,7 @@ class HorizontalLoginForm extends React.Component {
     const usernameError = isFieldTouched('username') && getFieldError('username');
     const passwordError = isFieldTouched('password') && getFieldError('password');
     return (
+      <header className="App-header">
       <Form layout="inline" onSubmit={this.handleSubmit}>
         <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
           {getFieldDecorator('username', {
@@ -72,6 +70,7 @@ class HorizontalLoginForm extends React.Component {
           </Button>
         </Form.Item>
       </Form>
+      </header>
     );
   }
 }
@@ -79,4 +78,4 @@ class HorizontalLoginForm extends React.Component {
 const WrappedHorizontalLoginForm = Form.create({ name: 'horizontal_login' })(HorizontalLoginForm);
 
 
-export default WrappedHorizontalLoginForm;
+export default withRouter(WrappedHorizontalLoginForm);
